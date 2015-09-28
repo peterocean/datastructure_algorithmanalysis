@@ -8,4 +8,5 @@ typedef int ElementType;
 //sort function
 extern void InsertSort(ElementType A[], int N);
 extern void PrintArray(ElementType A[], int N);
+extern void BubbleSort(ElementType A[], int N);
 #endif

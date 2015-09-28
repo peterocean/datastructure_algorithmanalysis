@@ -31,10 +31,14 @@ int main(int argc, char *argv[])
 	RandomFillArray(A,N);
 	printf("original array:\n");
 	PrintArray(A,N);
-	printf("\n");
 
-	InsertSort(A,N);
-	printf("After insert sort array:\n");
+	printf("sort start:\n");
+//	InsertSort(A,N);
+//	BubbleSort(A,N);
+	ShellSort_V2(A,N);
+	printf("sort end.\n");
+
+	printf("After sort array is:\n");
 	PrintArray(A,N);
 
 	free(A);
