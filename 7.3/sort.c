@@ -4,6 +4,7 @@
 #define INSERT_SORT_DEBUG 1
 #define SHELL_SORT_DEBUG 1
 #define BUBBLE_SORT_DEBUG 1
+#define QUICK_SORT_DEBUG 1
 
 void Exchange(ElementType *a, ElementType *b)
 {
@@ -103,6 +104,47 @@ void BubbleSort(ElementType A[], int N)
 }
 
 
+int Partition(ElementType A[],int left, int right)
+{
+	int i = left;
+	int j = right;
+	ElementType key  = A[right]; 
+	
+#ifdef QUICK_SORT_DEBUG
+	printf("Before Partition:i=%d;j=%d,left=%d,right=%d.\n",i,j,left,right);
+#endif
+	while (1) {
+		while (A[i] <= key) i++;
+		while (A[j] >=  key) j--;
+		if (i < j) Exchange(&A[i],&A[j]);
+		else break;
+	}
+	Exchange(&A[i],&A[right]);
+#ifdef QUICK_SORT_DEBUG
+	printf("After Partition:i=%d;j=%d,left=%d,right=%d.\n",i,j,left,right);
+#endif
+	return i;
+}
 
 
+void _QuickSort(ElementType A[],int left, int right)
+{
+	int i = left;
+	int j = right;
+	ElementType v = A[right];
+	
+	if (right <= 1) return;
+	i = Partition(A,left,right);
+#ifdef QUICK_SORT_DEBUG
+	PrintArray(A,right+1);
+#endif
+	_QuickSort(A,left,i-1);
+	_QuickSort(A,i+1,right);
+}
+void QuickSort(ElementType A[],int N)
+{
+	_QuickSort(A,0,N-1);
+
+	return;
+}
 
