@@ -36,7 +36,8 @@ int main(int argc, char *argv[])
 //	InsertSort(A,N);
 //	BubbleSort(A,N);
 //	ShellSort_V2(A,N);
-	QuickSort(A,N);
+//	QuickSort(A,N);
+  	MergeSort(A,N);
 	printf("sort end.\n");
 
 	printf("After sort array is:\n");

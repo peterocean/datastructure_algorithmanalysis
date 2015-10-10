@@ -1,10 +1,13 @@
 #include "sort.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
 
 #define INSERT_SORT_DEBUG 1
 #define SHELL_SORT_DEBUG 1
 #define BUBBLE_SORT_DEBUG 1
 #define QUICK_SORT_DEBUG 1
+#define MERGE_SORT_DEBUG 1
 
 void Exchange(ElementType *a, ElementType *b)
 {
@@ -20,6 +23,7 @@ void PrintArray(ElementType A[],int N)
 	for (i = 0; i < N; i++) {
 		printf("%3d ",A[i]);		
 	}
+	printf("\n");
 	printf("\n");
 }
 
@@ -147,4 +151,56 @@ void QuickSort(ElementType A[],int N)
 
 	return;
 }
+
+static void Merge(ElementType A[], int N,ElementType TmpArray[],int Lpos, int Rpos,int RightEnd)
+{
+	int i, LeftEnd, NumElements,Tmppos;
+	LeftEnd = Rpos - 1;
+	Tmppos = Lpos;
+	NumElements = RightEnd - Lpos + 1;
+
+#ifdef MERGE_SORT_DEBUG
+	printf("Merge before: Lpos=%3d,LeftEnd=%d;  Rpos=%3d,RightEnd=%d; \n",Lpos,LeftEnd,Rpos,RightEnd);
+#endif
+	while (Lpos <= LeftEnd && Rpos <= RightEnd)
+	{
+		if (A[Lpos] <= A[Rpos])
+			TmpArray[Tmppos++] = A[Lpos++];
+		else
+			TmpArray[Tmppos++] = A[Rpos++];
+	}
+	while (Lpos <= LeftEnd)
+		TmpArray[Tmppos++] = A[Lpos++];
+	while (Rpos <= RightEnd)
+		TmpArray[Tmppos++] = A[Rpos++];
+	for (i = 0; i < NumElements; i++, RightEnd--)
+		A[RightEnd] = TmpArray[RightEnd];
+#ifdef MERGE_SORT_DEBUG
+	PrintArray(A,N);
+#endif
+}
+ 
+static void MSort(ElementType A[],int N,ElementType TmpArray[],int Left, int Right)
+{
+	int Center;
+	if(Left < Right)
+	{
+		Center = (Left + Right)/2;
+		MSort(A,N,TmpArray,Left,Center);
+		MSort(A,N,TmpArray,Center + 1,Right);
+		Merge(A,N,TmpArray,Left,Center + 1,Right);
+	}
+}
+
+void MergeSort(ElementType A[], int N)
+{
+	ElementType *TmpArray = malloc(N*sizeof(ElementType));
+	assert(TmpArray != NULL);
+	MSort(A,N,TmpArray,0,N-1);
+	PrintArray(A,N);
+	free(TmpArray);
+}
+
+
+
 
